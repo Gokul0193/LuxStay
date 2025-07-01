@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import heroImage from '../assets/heroImage.png'
 import { assets, cities } from '../assets/assets'
-
+import { userData } from '../common/userDetails'
 const Hero = () => {
   const [user,setUser]=useState({})
    useEffect(()=>{
-    setUser()
+    setUser(userData)
    },[])
   
   

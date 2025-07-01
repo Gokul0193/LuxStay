@@ -1,10 +1,10 @@
 import React, { use } from 'react'
 import { useState } from 'react';
 import { assets } from '../assets/assets';
-
+import google from '../assets/google.png'
 import Login from './Login';
-
-// import {signupWithEmail} from '../controller/authController.js'
+import axios from 'axios';
+import {signupWithEmail} from '../controller/authController.js'
 
 
 const Signup = ({onlogin}) => {
@@ -19,7 +19,7 @@ const handleSignup=async(e)=>{
       e.preventDefault();
   try {
 
-    // await signupWithEmail(form.name,form.email,form.password,form.role,form.isHotelRegistered);
+    await signupWithEmail(form.name,form.email,form.password,form.role,form.isHotelRegistered);
     onlogin();
      alert("Registered successfully. Please log in.");
   
@@ -62,7 +62,7 @@ const handleSignup=async(e)=>{
                     <option value="Hotel Owner">Hotel Owner</option>
                   </select>
 
-                  <button className='md:w-96 w-72 mt-8 text-white  flex items-center justify-center h-12 py-3 rounded-full gap-5 cursor-pointer bg-primary'>Register</button>
+                  <button className='md:w-96 w-72 mt-8 text-white  flex items-center justify-center h-12 py-3 rounded-full gap-5 cursor-pointer bg-blue-500'>Register</button>
                   </div>
                
 

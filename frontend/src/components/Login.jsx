@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import google from '../assets/google.png'
 import { assets } from '../assets/assets'
 import Signup from './Signup';
-// import { loginWithEmail,loginWithGoogle } from '../controller/authController';
+import { loginWithEmail,loginWithGoogle } from '../controller/authController';
 
 const Login = ({onlogin}) => {
     const [islogin,setIslogin]=useState(true)
@@ -12,12 +12,12 @@ const Login = ({onlogin}) => {
     const handleEmailLogin= async(e)=>{
       e.preventDefault();
       try {
-        //   const userData=await loginWithEmail(form.email,form.password);
+          const userData=await loginWithEmail(form.email,form.password);
           
           
           
           onlogin();
-        //   alert(`Welcome back ${userData.name}, role: ${userData.role}`);
+          alert(`Welcome back ${userData.name}, role: ${userData.role}`);
       } catch (error) {
         alert("Login failed or no such account.");
       }
@@ -25,9 +25,9 @@ const Login = ({onlogin}) => {
 
     const handleGoogleLogin=async()=>{
       try {
-        // const userData= await loginWithGoogle();
+        const userData= await loginWithGoogle();
         onlogin();
-        // alert(`Welcome ${userData.name}, role: ${userData.role}`);
+        alert(`Welcome ${userData.name}, role: ${userData.role}`);
 
 
       } catch (error) {
@@ -68,7 +68,7 @@ const Login = ({onlogin}) => {
                   setForm({...form,password:e.target.value})
                  }} placeholder="Password" className=" text-gray-500/80 placeholder-gray-500/80 outline-none pl-8 md:w-96 h-12 w-72 rounded-full  bg-transparent border border-gray-400 text-lg" required/>  
 
-              <button type="submit" className="mt-8 md:w-96 h-12 w-72 rounded-full text-white bg-primary hover:opacity-90 transition-opacity">
+              <button type="submit" className="mt-8 md:w-96 h-12 w-72 rounded-full text-white bg-primary hover:opacity-90 transition-opacity bg-blue-500">
                 Login
             </button> 
 
