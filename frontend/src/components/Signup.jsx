@@ -23,9 +23,9 @@ const handleSignup=async(e)=>{
     onlogin();
      alert("Registered successfully. Please log in.");
   
-  } catch (err) {
-      console.error(err);
-      alert("Signup failed.");
+  } catch (error) {
+      console.error(error);
+     alert("Signup failed: " + error.message);
   }
 }
   return isclose && (
