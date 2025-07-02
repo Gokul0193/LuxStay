@@ -18,6 +18,8 @@ const Login = ({onlogin}) => {
           
           onlogin();
           alert(`Welcome back ${userData.name}, role: ${userData.role}`);
+          console.log(userData);
+          
       } catch (error) {
         alert("Login failed or no such account.");
       }
@@ -28,6 +30,8 @@ const Login = ({onlogin}) => {
         const userData= await loginWithGoogle();
         onlogin();
         alert(`Welcome ${userData.name}, role: ${userData.role}`);
+        console.log(userData);
+          
 
 
       } catch (error) {

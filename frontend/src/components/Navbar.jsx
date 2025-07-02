@@ -156,7 +156,7 @@ const Navbar = () => {
                         Login
                     </button>
                     ) :(
-                              <button className="bg-[#c18D52] text-white px-8 py-2.5 rounded-full ml-4 transition-all duration-500 cursor-pointer" onClick={handleLogout} >
+                              <button className="bg-[#c18D52] text-white px-8 py-2.5 rounded-full ml-4 transition-all duration-500 cursor-pointer" onClick={()=>{handleLogout();navigate('/')}} >
                         Logout
                     </button>
                     )
@@ -230,7 +230,7 @@ const Navbar = () => {
                     ) 
                     :
                     (
-                          <button className="bg-black text-white px-8 py-2.5 rounded-full transition-all duration-500 cursor-pointer" onClick={handleLogout}>
+                          <button className="bg-black text-white px-8 py-2.5 rounded-full transition-all duration-500 cursor-pointer" onClick={()=>{handleLogout(); navigate('/')}}>
                         Log out
                     </button>
                     )

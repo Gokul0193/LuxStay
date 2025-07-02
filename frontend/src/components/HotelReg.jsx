@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { assets, cities } from '../assets/assets'
-
+import { hotelRegistration } from '../controller/hotelController';
+import { userData, userId } from '../common/userDetails';
+import { updateUser } from '../controller/authController';
 
 
 export const HotelReg = ({ onClose, onRegisterComplete }) => {
@@ -11,30 +13,34 @@ export const HotelReg = ({ onClose, onRegisterComplete }) => {
                  e.preventDefault();
             try {
                 const{hotel,phone,address,city}=form;
-                // const currentUser=userData();
-                // const currentUserId=userId()
-                // console.log("usedta",currentUserId);
+                const currentUser=userData();
+                const currentUserId=userId()
+                console.log("usedta",currentUserId);
                 
-        //  const result= await hotelRegistration(currentUserId,hotel,phone,address,city);
-        //  if (result) {
+         const result= await hotelRegistration(currentUserId,hotel,phone,address,city);
+         if (result) {
            
-        //    await updateUser(currentUserId,currentUser.name,currentUser.email,
-        //     currentUser.role,
-        //     true
-        //     )
+           await updateUser(currentUserId,currentUser.name,currentUser.email,
+            currentUser.role,
+            true
+            )
            
           
             
-// localStorage.setItem('Users', JSON.stringify({
-//     ...currentUser,
-//     isHotelRegistered: true,
-//     hotelId:result.data.
-// hotelId
+localStorage.setItem('Users', JSON.stringify({
+    ...currentUser,
+    isHotelRegistered: true,
+    hotelId:result.data.
+hotelId
     
-// }));
-//              if (onRegisterComplete) onRegisterComplete();
+}));
+
+const da=userData()
+console.log("after Reg",da);
+
+             if (onRegisterComplete) onRegisterComplete();
             alert("Hotel Registered successfully.");
-        //  }
+         }
             
             }catch (error) {
                 console.error(error);
