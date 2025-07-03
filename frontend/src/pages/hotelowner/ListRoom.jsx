@@ -1,10 +1,34 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { roomsDummyData } from '../../assets/assets'
 import Title from '../../components/Title'
+import {roomDetails} from '../../controller/hotelController'
+import { userData } from '../../common/userDetails'
 
 const ListRoom = () => {
+      
 
-      const [room,setRoom]=useState(roomsDummyData)
+      
+      const [room,setRoom]=useState([]);
+      const [isOpen,setIsopen]=useState()
+      
+
+      useEffect( ()=>{
+        const fetchData=async ()=>{
+
+          const rooms= await roomDetails(userData().hotelId);
+        setRoom(rooms)
+        }
+        
+        fetchData()
+
+      },[])
+
+      // useEffect(()=>{
+
+      // },[isOpen])
+
+      console.log(room);
+      
   return (
     <div>
         <Title align='left' title='Room Listing' subTitle='View,edit,or manage all listed room. Keep the information up-to-date to provide the best experience for users.' />
@@ -31,16 +55,21 @@ const ListRoom = () => {
                           </td>
 
                            <td className='py-3 px-4 text-gray-700 border-t border-gray-300 max-sm:hidden'>
-                            {item.amenities.join(',')}
+                             {
+                              Object.entries(item.amenities)
+                              .filter(([key,value])=>value)
+                              .map(([key])=>key)
+                              .join('.')
+                             }
                           </td>
 
                            <td className='py-3 px-4 text-gray-700 border-t border-gray-300'>$
-                            {item.pricePerNight}
+                            {item.price}
                           </td>
 
                            <td className='py-3 px-4  border-t border-gray-300 text-sm text-red-500 text-center'>
                             <label htmlFor="" className='relative inline-flex cursor-pointer text-gray-900 gap-3'>
-                              <input type="checkbox" className='sr-only peer' checked={item.isAvailable}/>
+                              <input type="checkbox" className='sr-only peer' checked={item.isAvailable} readOnly />
                               <div className='w-12 h-7 bg-slate-300 rounded-full peer peer-checked:bg-blue-600 transition-colors duration-200'>
                                 <span className='dot absolute left-1 top-1 w-5 h-5 bg-white rounded-full transition-transform duration-200 ease-in-out peer-checked:translate-x-5'></span>
                               </div>

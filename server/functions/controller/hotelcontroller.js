@@ -1,5 +1,6 @@
 const {hotelRegister,roomRegister} =require('../model/hotelmodel.js');
 const {userDetails}=require('../model/DetailsModel.js')
+const {getRoomByHotelId }=require('../model/hotelmodel.js')
 
 const hotelRegistration= async (req,res)=>{
     const {userId,hotel,phone,address,city}=req.body;
@@ -35,4 +36,16 @@ const roomRegistration = async (req, res) => {
 };
 
 
-module.exports={hotelRegistration,roomRegistration};
+const getRooms=async (req,res)=>{
+    try {
+        
+        const rooms= await getRoomByHotelId(req.params.hotelId);
+        res.status(200).json(rooms);
+    } catch (error) {
+         res.status(400).json({message:error.message});
+    }
+}
+
+
+
+module.exports={hotelRegistration,roomRegistration,getRooms};

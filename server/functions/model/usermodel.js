@@ -1,4 +1,5 @@
 const {db}=require('../config/firebaseConfig.js');
+const userDetails=db.collection("rooms")
 
 exports.createUser=async (uid,email,name,role,isHotelRegistered)=>{
     const userRef=db.collection('users').doc(uid);
@@ -23,3 +24,4 @@ exports.updateUserRegistration=async(userId,name,email,role,isHotelRegistered)=>
        userId, name,email,role,isHotelRegistered
     })
 };
+

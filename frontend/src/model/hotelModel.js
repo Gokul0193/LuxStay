@@ -15,4 +15,12 @@ export const roomReg = async (roomData) => {
 };
 
 
+export const getRooms=async (hotelId)=>{
+
+     const response= await axios.get(
+        `http://localhost:5001/staylux-a71c8/us-central1/api/hotel/${hotelId}`
+    );
+    return response.data
+}
+
 

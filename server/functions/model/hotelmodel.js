@@ -19,3 +19,14 @@ exports.roomRegister=async(hotelId,roomType,price,amenities,isAvailable)=>{
     })
     return roomRef.id
 }
+
+exports.getRoomByHotelId =async(hotelId)=>{
+
+    const userDetails=db.collection('rooms');
+    const snapshot=await userDetails.where("hotelId","==",hotelId).get();
+
+    if (!snapshot.empty) {
+        
+        return snapshot.docs.map(doc=>({id:doc.id,...doc.data()}));
+    }     
+}
