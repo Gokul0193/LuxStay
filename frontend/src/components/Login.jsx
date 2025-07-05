@@ -28,6 +28,7 @@ const Login = ({onlogin}) => {
     const handleGoogleLogin=async()=>{
       try {
         const userData= await loginWithGoogle();
+     
         onlogin();
         alert(`Welcome ${userData.name}, role: ${userData.role}`);
         console.log(userData);

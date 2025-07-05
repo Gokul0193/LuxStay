@@ -1,14 +1,13 @@
-export const userData =()=>{
-    const userData=localStorage.getItem('Users');
-    if(userData){
-        return JSON.parse(userData);
+export const userData = () => {
+    try {
+        const data = localStorage.getItem('user');
+        return data ? JSON.parse(data) : null;
+    } catch (err) {
+        console.error("Invalid JSON for 'user' in localStorage", err);
+        return null;
     }
-}
+};
 
-
-export const userId =()=>{
-    const userData=localStorage.getItem('UserId');
-    if(userData){
-        return JSON.parse(userData);
-    }
-}
+export const userId = () => {
+    return localStorage.getItem('userId');
+};

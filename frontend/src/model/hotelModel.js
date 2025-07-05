@@ -15,12 +15,12 @@ export const roomReg = async (roomData) => {
 };
 
 
-export const getRooms=async (hotelId)=>{
+export const roomDetails=async (hotelId)=>{
+    return await axios.post(`http://localhost:5001/staylux-a71c8/us-central1/api/hotel/rooms/${hotelId}`)
+}
 
-     const response= await axios.get(
-        `http://localhost:5001/staylux-a71c8/us-central1/api/hotel/${hotelId}`
-    );
-    return response.data
+export const roomDetailsUpdate=async (roomId,isAvailable)=>{
+    return await axios.post(`http://localhost:5001/staylux-a71c8/us-central1/api/hotel/room-update/${roomId}`,{isAvailable})
 }
 
 

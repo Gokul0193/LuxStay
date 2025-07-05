@@ -20,6 +20,11 @@ const Navbar = () => {
     const isowner=user?.role==='Hotel Owner';
     const isRegistered=user?.isHotelRegistered
 
+    console.log("is owner ",isowner);
+    console.log("isregistered",isRegistered);
+    
+    
+
     const [isScrolled, setIsScrolled] = useState(false);
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [showHotelReg,setHotelReg]=useState(false);
@@ -58,7 +63,7 @@ const Navbar = () => {
     const handleLogout=()=>{
      
     alert(`${user.name} is Logout Sucessfully`)
-    localStorage.removeItem('Users');
+    localStorage.removeItem('user');
     setUser(null)
    };
     

@@ -1,6 +1,6 @@
-const {hotelRegister,roomRegister} =require('../model/hotelmodel.js');
+const {hotelRegister,roomRegister,roomDetails,updatRoomDetils} =require('../model/hotelmodel.js');
 const {userDetails}=require('../model/DetailsModel.js')
-const {getRoomByHotelId }=require('../model/hotelmodel.js')
+
 
 const hotelRegistration= async (req,res)=>{
     const {userId,hotel,phone,address,city}=req.body;
@@ -35,17 +35,34 @@ const roomRegistration = async (req, res) => {
     }
 };
 
+const getRoomDetails=async(req,res)=>{
 
-const getRooms=async (req,res)=>{
+    const {hotelId}=req.params;
     try {
         
-        const rooms= await getRoomByHotelId(req.params.hotelId);
-        res.status(200).json(rooms);
+       const room= await roomDetails(hotelId);
+        res.status(200).json(room)
     } catch (error) {
-         res.status(400).json({message:error.message});
+         res.status(500).send({ error: "no Room  Get" });
+    }
+    
+
+}
+
+const roomDetailsUpdate=async(req,res)=>{
+    const {roomId}=req.params;
+    const {isAvailable}=req.body
+    try {
+     const updateDoc=  await updatRoomDetils(roomId,isAvailable)
+        res.status(200).json(updateDoc);
+        
+    } catch (error) {
+         res.status(500).send({ error: "no update" });
+        
     }
 }
 
 
 
-module.exports={hotelRegistration,roomRegistration,getRooms};
+
+module.exports={hotelRegistration,roomRegistration,getRoomDetails,roomDetailsUpdate};

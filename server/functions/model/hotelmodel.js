@@ -20,13 +20,36 @@ exports.roomRegister=async(hotelId,roomType,price,amenities,isAvailable)=>{
     return roomRef.id
 }
 
-exports.getRoomByHotelId =async(hotelId)=>{
+exports.roomDetails=async(hotelId)=>{
+    const roomRef=db.collection("rooms")
+   const room= await roomRef.where("hotelId","==",hotelId).get();
 
-    const userDetails=db.collection('rooms');
-    const snapshot=await userDetails.where("hotelId","==",hotelId).get();
+   if (room.empty) {
+    
+    return[]
+   }
 
-    if (!snapshot.empty) {
-        
-        return snapshot.docs.map(doc=>({id:doc.id,...doc.data()}));
-    }     
+   const rooms=[]
+    room.forEach((doc)=>{
+    rooms.push({
+        id:doc.id,
+        ...doc.data()
+    }) 
+   });
+
+   return rooms
+}
+
+exports.updatRoomDetils=async(roomId,isAvailable)=>{
+    const roomRef= db.collection('rooms').doc(roomId);
+
+   await roomRef.update({
+        isAvailable
+    })
+    const updatedDoc=await roomRef.get();
+
+    return {
+        id:updatedDoc.id,
+        ...updatedDoc.data()
+    }
 }

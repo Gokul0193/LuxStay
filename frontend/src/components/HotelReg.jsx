@@ -27,7 +27,7 @@ export const HotelReg = ({ onClose, onRegisterComplete }) => {
            
           
             
-localStorage.setItem('Users', JSON.stringify({
+localStorage.setItem('user', JSON.stringify({
     ...currentUser,
     isHotelRegistered: true,
     hotelId:result.data.

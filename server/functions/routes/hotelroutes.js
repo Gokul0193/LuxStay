@@ -8,7 +8,10 @@ const hotelController = require('../controller/hotelcontroller.js');
 
 router.post('/hotel-reg', hotelController.hotelRegistration);
 router.post('/room-reg',hotelController.roomRegistration);
-router.get('/:hotelId',hotelController.getRooms);
+router.post('/rooms/:hotelId', hotelController.getRoomDetails)
+router.post('/room-update/:roomId', hotelController.roomDetailsUpdate)
+
+
 
 
 module.exports = router;

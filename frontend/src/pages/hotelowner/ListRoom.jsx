@@ -1,33 +1,46 @@
 import React, { useEffect, useState } from 'react'
 import { roomsDummyData } from '../../assets/assets'
 import Title from '../../components/Title'
-import {roomDetails} from '../../controller/hotelController'
+import { getRoomDetails,updateRoomDetails } from '../../controller/hotelController'
+
 import { userData } from '../../common/userDetails'
 
 const ListRoom = () => {
+      const user=userData()
       
-
       
-      const [room,setRoom]=useState([]);
-      const [isOpen,setIsopen]=useState()
-      
+const [room,setRoom]=useState()
 
-      useEffect( ()=>{
-        const fetchData=async ()=>{
+useEffect(()=>{
+  
+  const fetchData=async()=>{
+    const rooms=await getRoomDetails(user.hotelId);
+  setRoom(rooms.data)
+  }
+  fetchData()
+  
+},[])
 
-          const rooms= await roomDetails(userData().hotelId);
-        setRoom(rooms)
-        }
-        
-        fetchData()
+const handelRoomUpdate=async(roomId,isAvailable)=>{
 
-      },[])
+  try {
+    
+    const result=await updateRoomDetails(roomId,isAvailable);
+    setRoom(prev=>prev.map((room)=>{
+     return room.id===roomId ? {...room,isAvailable:result.data.isAvailable}:room
+    }))
+    
+  } catch (error) {
+    console.log(error);
+    
+  }
 
-      // useEffect(()=>{
+  
+  
+}
 
-      // },[isOpen])
 
-      console.log(room);
+   
       
   return (
     <div>
@@ -48,7 +61,7 @@ const ListRoom = () => {
 
               <tbody className='text-sm'>
                   {
-                    room.map((item,index)=>{
+                    room?.map((item,index)=>{
                       return <tr key={index}>
                           <td className='py-3 px-4 text-gray-700 border-t border-gray-300'>
                             {item.roomType}
@@ -68,12 +81,28 @@ const ListRoom = () => {
                           </td>
 
                            <td className='py-3 px-4  border-t border-gray-300 text-sm text-red-500 text-center'>
-                            <label htmlFor="" className='relative inline-flex cursor-pointer text-gray-900 gap-3'>
-                              <input type="checkbox" className='sr-only peer' checked={item.isAvailable} readOnly />
-                              <div className='w-12 h-7 bg-slate-300 rounded-full peer peer-checked:bg-blue-600 transition-colors duration-200'>
-                                <span className='dot absolute left-1 top-1 w-5 h-5 bg-white rounded-full transition-transform duration-200 ease-in-out peer-checked:translate-x-5'></span>
-                              </div>
-                            </label>
+                           
+
+                            <label className='flex cursor-pointer select-none items-center' >
+        <div className='relative'>
+          <input
+            type='checkbox'
+            checked={item.isAvailable}
+           onChange={()=>handelRoomUpdate(item.id,!item.isAvailable)}
+            className='sr-only'
+          />
+          <div
+            className={`box block h-8 w-14 rounded-full ${
+              item.isAvailable ? 'bg-blue-500' : 'bg-black'
+            }`}
+          ></div>
+          <div
+            className={`absolute left-1 top-1 flex h-6 w-6 items-center justify-center rounded-full bg-white transition ${
+              item.isAvailable ? 'translate-x-full' : ''
+            }`}
+          ></div>
+        </div>
+      </label>
                           </td>
                       </tr>
                     })
