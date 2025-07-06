@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import { assets, cities } from '../assets/assets'
 import { hotelRegistration } from '../controller/hotelController';
-import { userData, userId } from '../common/userDetails';
-import { updateUser } from '../controller/authController';
+import {  userData, userId } from '../common/userDetails';
+import { getuserDetails, updateUser } from '../controller/authController';
 
 
 export const HotelReg = ({ onClose, onRegisterComplete }) => {
-
+    
     const [form,setForm]=useState({hotel:'',phone:'',address:'',city:''})
 
      const handleRegister = async(e)=>{
@@ -20,23 +20,18 @@ export const HotelReg = ({ onClose, onRegisterComplete }) => {
          const result= await hotelRegistration(currentUserId,hotel,phone,address,city);
          if (result) {
            
-           await updateUser(currentUserId,currentUser.name,currentUser.email,
+          await updateUser(currentUserId,currentUser.name,currentUser.email,
             currentUser.role,
             true
             )
            
           
+            const getuser= await getuserDetails(currentUserId);
+            console.log(getuser);
             
-localStorage.setItem('user', JSON.stringify({
-    ...currentUser,
-    isHotelRegistered: true,
-    hotelId:result.data.
-hotelId
-    
-}));
+           
+            
 
-const da=userData()
-console.log("after Reg",da);
 
              if (onRegisterComplete) onRegisterComplete();
             alert("Hotel Registered successfully.");

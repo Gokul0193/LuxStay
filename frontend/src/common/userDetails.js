@@ -11,3 +11,7 @@ export const userData = () => {
 export const userId = () => {
     return localStorage.getItem('userId');
 };
+
+export const hotel=()=>{
+   return JSON.parse(localStorage.getItem('hotles')) 
+}

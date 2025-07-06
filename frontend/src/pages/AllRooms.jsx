@@ -1,7 +1,8 @@
 import React, { useState } from 'react'
-import { assets, facilityIcons, roomsDummyData } from '../assets/assets'
+import { assets, facilityIcons, hotels, roomsDummyData } from '../assets/assets'
 import { useNavigate } from 'react-router-dom'
 import StarRating from '../components/StarRating';
+import { hotel } from '../common/userDetails';
 
 
 
@@ -46,6 +47,10 @@ const AllRooms = () => {
         'Price High to Low',
         'Newest First'
     ]
+
+    const hotel1=hotels();
+    console.log(hotels());
+    
   return (
     <div className='flex flex-col-reverse lg:flex-row  items-start justify-between pt-28 md:pt-35 px-4 md:px-16 lg:px-24 xl:px-32'>
       <div>
@@ -54,28 +59,29 @@ const AllRooms = () => {
                 <p className='text-sm md:text-base text-gray-500/90 mt-2 max-w-174'>Take advantage of our limited-time offers and special packages to enhance your stay and create unforgettable memories.</p>
             </div>
             {
-                roomsDummyData.map((room)=>{
-                    return <div key={room._id} className='flex flex-col md:flex-row items-start py-10 gap-6  border-b border-gray-300 last:pb-30 last:border-0'>
+                hotel1.map((hotelItem)=>(
+                    hotelItem?.rooms.map((room,index)=>{
+                         return room.isAvailable&& <div key={room.roomId} className='flex flex-col md:flex-row items-start py-10 gap-6  border-b border-gray-300 last:pb-30 last:border-0'>
                         <img onClick={()=>{
-                            navigate(`/rooms/${room._id}`);
+                            navigate(`/rooms/${room.roomId}`);
                             scrollTo(0,0);
-                        }} src={room.images[0]} alt="hotel-img" className='max-h-65
+                        }} src={room.images[Math.floor(Math.random()*4)]} alt="hotel-img" className='max-h-65
                         md:w-1/2 rounded-xl shadow-lg object-cover cursor-pointer' title='view Room Details' />
                         <div className='md:w-1/2 flex flex-col gap-2'>
                             <p onClick={()=>{
-                            navigate(`/rooms/${room._id}`);
+                            navigate(`/rooms/${room.roomId}`);
                             scrollTo(0,0);
-                        }}className='text-gray-500'>{room.hotel.city}</p>
-                             <p className='text-gray-500text-3xl '>{room.hotel.name}</p>
+                        }}className='text-gray-500'>{hotelItem.hotel.city}</p>
+                             <p className='text-gray-500 text-3xl '>{hotelItem.hotel.hotel}</p>
                              <div className='flex items-center'>
-                               <StarRating rating={room.rating}/>
+                               <StarRating rating={5}/>
                                 <p className='ml-2'>200+ reviews</p>
                              </div>
                              <div className='flex items-center gap-2 text-gray-500 mt-2 text-sm'>
                                 <img src={assets.locationIcon}  alt="location-icon" />
                                 <span>
                                     {
-                                        room.hotel.address
+                                        hotelItem.hotel.address
                                     }
                                 </span>
                              </div>
@@ -83,20 +89,25 @@ const AllRooms = () => {
 
                              <div className='flex flex-wrap items-center mt-3 mb-6 gap-4 w-80'>
                                 {
-                                    room.amenities.map((item,index)=>(
+
+                                    Object.entries(room.amenities)
+                                    .filter(([_,value])=>value)
+                                     .map(([amenity], index)=>(
                                         <div className='flex items-center gap-2 px-3 pt-2 rounded-lg bg-[#F5F5FF]/70' key={index}>
-                                            <img src={facilityIcons[item]} alt={item} className='w-5 h-5' />
-                                            <p className='text-xs'>{item}</p>
-                                        </div>
-                                    ))
+                                            <img src={facilityIcons[amenity]} alt={amenity} className='w-5 h-5' />
+                                         <p className='text-xs'>{amenity}</p>
+                                         </div>
+                                     ))
+                                 
                                 }
                              </div>
                              {/* Room price */}
 
-                             <p className='text-xl font-medium text-gray-700'>${room.pricePerNight} /night</p>
+                             <p className='text-xl font-medium text-gray-700'>${room.price} /night</p>
                         </div>
                     </div>
-                })
+                    })
+                ))
             }
       </div>
 

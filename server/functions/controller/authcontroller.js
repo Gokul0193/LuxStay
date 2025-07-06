@@ -19,7 +19,7 @@ const login=async (req,res)=>{
     try {
       const user=  await getUserByUID(uid);
       if(user){
-        res.status(200).send(user);
+        res.status(200).json(user)
       }else{
         res.status(404).send({message:"No Such Account"})
       }

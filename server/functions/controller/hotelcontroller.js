@@ -6,7 +6,7 @@ const hotelRegistration= async (req,res)=>{
     const {userId,hotel,phone,address,city}=req.body;
 
     try {
-        await hotelRegister(userId,hotel,phone,address,city);
+      await hotelRegister(userId,hotel,phone,address,city);
         res.status(200).send({message:"Registerd Sucessfully"});
 
     } catch (error) {

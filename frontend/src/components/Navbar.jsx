@@ -20,8 +20,8 @@ const Navbar = () => {
     const isowner=user?.role==='Hotel Owner';
     const isRegistered=user?.isHotelRegistered
 
-    console.log("is owner ",isowner);
-    console.log("isregistered",isRegistered);
+ console.log('navabr',user);
+ 
     
     
 
@@ -99,7 +99,7 @@ const Navbar = () => {
             <nav className={`fixed top-0 left-0  w-full flex items-center justify-between px-4 md:px-16 lg:px-24 xl:px-32 transition-all duration-500 z-50 ${isScrolled ? " bg-[#0B5844]  shadow-md text-white backdrop-blur-lg py-3 md:py-4" : "py-4 md:py-6"}`}>
 
                 {/* Logo */}
-                <Link className="flex items-center  gap-2">
+                <Link to='/' className="flex items-center  gap-2">
                     <img src={assets.logo} alt="logo" className={`h-9 `} /> <span className='text-[#FAF9F6] text-3xl font-bold'>LuxStay</span> 
                 </Link>
  
@@ -107,7 +107,7 @@ const Navbar = () => {
                 {
                     isowner ? (
                              <div className="hidden md:flex items-center  gap-4 lg:gap-8">
-                    {navLinks.map((link, i) => (
+                    {!isowner&&navLinks.map((link, i) => (
                         <Link key={i} to={link.path} className={`group flex  flex-col gap-0.5 ${isScrolled ? "text-white" : "text-gray-700"}`}>
                             {link.name}
                             <div className={`${isScrolled ? "bg-gray-700" : "bg-white"} h-0.5 w-0 group-hover:w-full transition-all duration-300`} />
@@ -123,7 +123,7 @@ const Navbar = () => {
 
                     (
                          <div className="hidden md:flex items-center  gap-4 lg:gap-8">
-                    {navLinks.map((link, i) => (
+                    {!isowner&&navLinks.map((link, i) => (
                         <Link key={i} to={link.path} className={`group flex  flex-col gap-0.5 ${isScrolled ? "text-white" : "text-gray-700"}`}>
                             {link.name}
                             <div className={`${isScrolled ? "bg-gray-700" : "bg-white"} h-0.5 w-0 group-hover:w-full transition-all duration-300`} />

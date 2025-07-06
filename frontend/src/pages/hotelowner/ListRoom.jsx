@@ -7,6 +7,7 @@ import { userData } from '../../common/userDetails'
 
 const ListRoom = () => {
       const user=userData()
+      console.log(user);
       
       
 const [room,setRoom]=useState()

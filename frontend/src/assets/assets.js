@@ -38,6 +38,7 @@ import uploadArea from "./uploadArea.svg";
 import totalBookingIcon from "./totalBookingIcon.svg";
 import totalRevenueIcon from "./totalRevenueIcon.svg";
 import Gk from './Gk.png'
+import { hotel } from '../common/userDetails'
 
 export const assets = {
     logo,
@@ -102,7 +103,7 @@ export const facilityIcons = {
     "Free Breakfast": assets.freeBreakfastIcon,
     "Room Service": assets.roomServiceIcon,
     "Mountain View": assets.mountainIcon,
-    "Pool Access": assets.poolIcon,
+    "Pool Acess": assets.poolIcon,
 };
 
 // For Room Details Page
@@ -267,3 +268,22 @@ const BookIcon = ()=>(
 )
 
 */
+
+export const hotels=()=>{
+    const hotels=hotel();
+ const updatedRoom=hotels.map((hotel)=>(
+            {
+                ...hotel,
+                rooms:hotel.rooms.map((room)=>({
+                "images": [roomImg4, roomImg1, roomImg2, roomImg3],
+                ...room
+             }))
+            }
+             
+    )
+       
+    )
+
+    
+    return updatedRoom
+}

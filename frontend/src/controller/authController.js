@@ -25,8 +25,9 @@ export const loginWithGoogle = async () => {
     const user = result.user;
 
     const response = await googleLogin(user.email.toLowerCase());
-    localStorage.setItem("user", JSON.stringify(response.data)); // ✅ JSON.stringify
+    localStorage.setItem("user", JSON.stringify(response.data[0].user)); // ✅ JSON.stringify
     localStorage.setItem("userId", user.uid);
+    localStorage.setItem('hotles',JSON.stringify(response.data[1]))
 
     return response.data;
 };
@@ -35,3 +36,10 @@ export const updateUser = async (userId, name, email, role, isHotelRegistered) =
     const response = await updateUserReg({ userId, name, email, role, isHotelRegistered });
     return response.data;
 };
+
+export const getuserDetails=async(userId)=>{
+     const response = await loginUser(userId);
+      localStorage.setItem("user",JSON.stringify(response.data))              
+
+    return response.data;
+}
