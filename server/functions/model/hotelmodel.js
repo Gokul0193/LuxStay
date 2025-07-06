@@ -53,3 +53,47 @@ exports.updatRoomDetils=async(roomId,isAvailable)=>{
         ...updatedDoc.data()
     }
 }
+exports.getHotelRooms=async()=>{
+    const ownersDocSnap=await db.collection('users').where("role",'==',"Hotel Owner").get()
+    
+     let Hotelresult=[];
+
+    for(const ownerDoc of ownersDocSnap.docs){
+        const ownerData=ownerDoc.data();
+
+        let hotelData={};
+        if (ownerData.hotelId) {
+            const hotelSnap=await db.collection('hotels'
+            ).doc(ownerData.hotelId).get()
+
+            if (hotelSnap.exists) {
+                hotelData={hotelId:hotelSnap.id,...hotelSnap.data()}
+            }
+
+        }
+
+        const roomsSnap=await db.collection('rooms')
+        .where('hotelId','==',ownerData.hotelId).get()
+
+        const roomsData=roomsSnap.docs.map(doc=>({roomId:doc.id,...doc.data()}));
+
+        Hotelresult.push({
+            
+            owner:{
+                name:ownerData.name,
+                role:ownerData.role,
+                email:ownerData.email,
+                userId:ownerData.userId,
+                hotelId:ownerData.hotelId
+            },
+            hotel:hotelData,
+            rooms:roomsData
+        })
+    }
+
+
+   
+    return [...Hotelresult]
+
+
+}

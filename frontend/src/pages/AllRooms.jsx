@@ -3,6 +3,8 @@ import { assets, facilityIcons, hotels, roomsDummyData } from '../assets/assets'
 import { useNavigate } from 'react-router-dom'
 import StarRating from '../components/StarRating';
 import { hotel } from '../common/userDetails';
+import { useEffect } from 'react';
+import { getHotelRoom } from '../controller/hotelController';
 
 
 
@@ -26,7 +28,7 @@ import { hotel } from '../common/userDetails';
 const AllRooms = () => {
     const navigate=useNavigate();
     const [openFilter,setOpenFilter]=useState(false);
-   
+    const [hotel,setHotel]=useState([])
 
     const roomTypes=[
         'Single Bed',
@@ -48,8 +50,17 @@ const AllRooms = () => {
         'Newest First'
     ]
 
-    const hotel1=hotels();
-    console.log(hotels());
+    useEffect(()=>{
+
+        const fetchHotelRoom=async()=>{
+            const data=await getHotelRoom()
+          
+        const updatedData= hotels(data.data)
+           setHotel(updatedData)
+        }
+        fetchHotelRoom()
+    },[])
+
     
   return (
     <div className='flex flex-col-reverse lg:flex-row  items-start justify-between pt-28 md:pt-35 px-4 md:px-16 lg:px-24 xl:px-32'>
@@ -59,7 +70,7 @@ const AllRooms = () => {
                 <p className='text-sm md:text-base text-gray-500/90 mt-2 max-w-174'>Take advantage of our limited-time offers and special packages to enhance your stay and create unforgettable memories.</p>
             </div>
             {
-                hotel1.map((hotelItem)=>(
+                hotel.map((hotelItem)=>(
                     hotelItem?.rooms.map((room,index)=>{
                          return room.isAvailable&& <div key={room.roomId} className='flex flex-col md:flex-row items-start py-10 gap-6  border-b border-gray-300 last:pb-30 last:border-0'>
                         <img onClick={()=>{

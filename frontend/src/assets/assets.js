@@ -99,7 +99,7 @@ export const testimonials = [
 
 // Facility Icon
 export const facilityIcons = {
-    "Free WiFi": assets.freeWifiIcon,
+    "Free Wifi": assets.freeWifiIcon,
     "Free Breakfast": assets.freeBreakfastIcon,
     "Room Service": assets.roomServiceIcon,
     "Mountain View": assets.mountainIcon,
@@ -269,11 +269,12 @@ const BookIcon = ()=>(
 
 */
 
-export const hotels=()=>{
-    const hotels=hotel();
- const updatedRoom=hotels.map((hotel)=>(
+export const hotels=(hotelRooms)=>{
+;
+ const updatedRoom=hotelRooms.map((hotel)=>(
             {
                 ...hotel,
+                
                 rooms:hotel.rooms.map((room)=>({
                 "images": [roomImg4, roomImg1, roomImg2, roomImg3],
                 ...room
@@ -284,6 +285,8 @@ export const hotels=()=>{
        
     )
 
-    
+    console.log(updatedRoom);
     return updatedRoom
+    
+    
 }

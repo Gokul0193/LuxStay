@@ -24,3 +24,6 @@ export const roomDetailsUpdate=async (roomId,isAvailable)=>{
 }
 
 
+export const hotelRooms=async()=>{
+    return await axios.get("http://localhost:5001/staylux-a71c8/us-central1/api/hotel/hotel-room")
+}

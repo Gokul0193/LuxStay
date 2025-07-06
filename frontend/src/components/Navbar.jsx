@@ -20,7 +20,7 @@ const Navbar = () => {
     const isowner=user?.role==='Hotel Owner';
     const isRegistered=user?.isHotelRegistered
 
- console.log('navabr',user);
+
  
     
     

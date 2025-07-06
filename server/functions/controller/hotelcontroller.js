@@ -1,4 +1,4 @@
-const {hotelRegister,roomRegister,roomDetails,updatRoomDetils} =require('../model/hotelmodel.js');
+const {hotelRegister,roomRegister,roomDetails,updatRoomDetils,getHotelRooms} =require('../model/hotelmodel.js');
 const {userDetails}=require('../model/DetailsModel.js')
 
 
@@ -62,7 +62,15 @@ const roomDetailsUpdate=async(req,res)=>{
     }
 }
 
+const hotelRoom=async(req,res)=>{
+    try {
+        const result=await getHotelRooms()
+        res.status(200).json(result)
+    } catch (error) {
+         res.status(500).send({ error: "not get data" });
+    }
+}
 
 
 
-module.exports={hotelRegistration,roomRegistration,getRoomDetails,roomDetailsUpdate};
+module.exports={hotelRegistration,roomRegistration,getRoomDetails,roomDetailsUpdate,hotelRoom};
