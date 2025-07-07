@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
-import { assets, facilityIcons, roomCommonData, roomsDummyData } from '../assets/assets';
+import { assets, facilityIcons, hotels, roomCommonData, roomsDummyData } from '../assets/assets';
 import StarRating from './StarRating';
+
 
 const RoomDetails = () => {
     const {id} =useParams();
@@ -10,23 +11,46 @@ const RoomDetails = () => {
 
      useEffect(()=>{
 
-        const room =roomsDummyData.find(room=>room._id===id);
+        
+        
+       
 
-        room && setRoom(room);
-        room && setMainImg(room.images[0])
+       console.log("local storage",JSON.parse(localStorage.getItem('hotelData')));
+
+       const hotelData=JSON.parse(localStorage.getItem('hotelData'));
+       let foundRoom=null;
+       let foundHotel=null;
+      for (const hotel of hotelData) {
+    const room = hotel.rooms.find(ro => ro.roomId === id);
+    if (room) {
+        foundRoom = {...room};
+        foundHotel={hotel:hotel.hotel,owner:hotel.owner,...room}
+        
+        break;
+    }
+}
+console.log(foundHotel);
+ foundHotel && setRoom(foundHotel);
+        foundHotel && setMainImg(foundHotel.images[0])
+
+      
+       
+
+       
+        
      },[])
 
   return room && (
     <div className='py-28 md:py-35 px-4 md:px-16 lg:px-24 xl:px-32'>
         {/* Room Details */}
         <div className='flex flex-col md:flex-row items-start md:items-center gap-2'>
-            <h1 className='text-3xl md:text-4xl '>{room.hotel.name} <span className='text-sm'>({room.roomType})</span></h1>
+            <h1 className='text-3xl md:text-4xl '>{room.hotel.hotel} <span className='text-sm'>({room.roomType})</span></h1>
         <p className='text-xs py-1.5 px-3 text-white bg-orange-500 rounded-full'>20% OFF</p>
         </div>
 
         {/* Room Rating */}
         <div className='flex items-center gap-1 mt-2'>
-            <StarRating rating={room.rating}/>
+            <StarRating rating={5}/>
             <p className='ml-2'>200+ reviews</p>
         </div>
 
@@ -58,18 +82,20 @@ const RoomDetails = () => {
                 <div className='flex flex-wrap items-center mt-3 mb-6 gap-4
                 '>
                     {
-                        room.amenities.map((item,index)=>{
-                            return <div key={index} className='flex items-center gap-2 px-3 py-2 rounded-lg bg-gray-100'>
-                                <img    src={facilityIcons[item]} alt={item} className='w-5 h-5' />
-                                <p className='text-xs'>{item}</p>
+                        Object.entries( room.amenities).map(([key,value],index)=>{
+                            return value && <div key={index} className='flex items-center gap-2 px-3 py-2 rounded-lg bg-gray-100'>
+                                <img    src={facilityIcons[key]} alt={value} className='w-5 h-5' />
+                                <p className='text-xs'>{key}</p>
                             </div>
                         })
+                       
                     }
                 </div>
             </div>
             
             {/* Room Price */}
-            <p className='text-2xl font-medium flex  md:flex items-center gap-2'>$ {room.pricePerNight}/night</p>
+            <p className='text-2xl font-medium flex  md:flex items-center gap-2'>$ {room.price
+}/night</p>
 
         </div>
 
@@ -95,7 +121,7 @@ const RoomDetails = () => {
             </div>
 
             <button type='submit' className='bg-blue-500  hover:bg-primary  active:scale-95 transition-all text-white rounded-md max-md:w-full max-md:mt-6 md:px-25 py-3 md:py-4 text-base cursor-pointer'>
-                 Check Availability
+                 Book Now
             </button>
 
         </form>
@@ -122,11 +148,11 @@ const RoomDetails = () => {
         {/* Hosted By */}
         <div className='flex flex-col items-start gap-4'>
             <div className='flex gap-4'>
-                <img src={room.hotel.owner.image} alt="host" className='h-14 w-14 md:h-18 md:w-18 rounded-full ' />
+                {/* <img src={room.hotel.owner.image} alt="host" className='h-14 w-14 md:h-18 md:w-18 rounded-full ' /> */}
             </div>
-            <p className='text-lg md:text-xl'>Hosted by {room.hotel.name}</p>
+            <p className='text-lg md:text-xl'>Hosted by {room.hotel.hotel}</p>
             <div className='flex items-center mt-1'>
-                <StarRating rating={room.rating}/>
+                <StarRating rating={5}/>
                 <p className='ml-2'>200+ reviews</p>
             </div>
         </div>

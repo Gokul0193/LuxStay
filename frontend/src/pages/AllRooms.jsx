@@ -5,6 +5,7 @@ import StarRating from '../components/StarRating';
 import { hotel } from '../common/userDetails';
 import { useEffect } from 'react';
 import { getHotelRoom } from '../controller/hotelController';
+import Loader from '../components/Loader';
 
 
 
@@ -29,7 +30,7 @@ const AllRooms = () => {
     const navigate=useNavigate();
     const [openFilter,setOpenFilter]=useState(false);
     const [hotel,setHotel]=useState([])
-
+    const [state,SetState]=useState()
     const roomTypes=[
         'Single Bed',
         'Double Bed',
@@ -52,25 +53,28 @@ const AllRooms = () => {
 
     useEffect(()=>{
 
+        SetState(false)
         const fetchHotelRoom=async()=>{
             const data=await getHotelRoom()
           
         const updatedData= hotels(data.data)
            setHotel(updatedData)
+           SetState(true)
         }
         fetchHotelRoom()
     },[])
 
     
-  return (
+  return  (
     <div className='flex flex-col-reverse lg:flex-row  items-start justify-between pt-28 md:pt-35 px-4 md:px-16 lg:px-24 xl:px-32'>
       <div>
+       
             <div className='flex flex-col items-start text-left'>
                 <h1 className='text-4xl md:text-[40px]'>Hotel Rooms</h1>
                 <p className='text-sm md:text-base text-gray-500/90 mt-2 max-w-174'>Take advantage of our limited-time offers and special packages to enhance your stay and create unforgettable memories.</p>
             </div>
-            {
-                hotel.map((hotelItem)=>(
+            {state ?
+                (hotel.map((hotelItem)=>(
                     hotelItem?.rooms.map((room,index)=>{
                          return room.isAvailable&& <div key={room.roomId} className='flex flex-col md:flex-row items-start py-10 gap-6  border-b border-gray-300 last:pb-30 last:border-0'>
                         <img onClick={()=>{
@@ -83,7 +87,7 @@ const AllRooms = () => {
                             navigate(`/rooms/${room.roomId}`);
                             scrollTo(0,0);
                         }}className='text-gray-500'>{hotelItem.hotel.city}</p>
-                             <p className='text-gray-500 text-3xl '>{hotelItem.hotel.hotel}</p>
+                             <p className='text-gray-500 text-3xl '>{hotelItem.hotel.hotel} </p>
                              <div className='flex items-center'>
                                <StarRating rating={5}/>
                                 <p className='ml-2'>200+ reviews</p>
@@ -119,6 +123,13 @@ const AllRooms = () => {
                     </div>
                     })
                 ))
+            )
+            :(
+                <div className='mt-40'>
+                         <Loader/>
+                </div>
+               
+            )
             }
       </div>
 

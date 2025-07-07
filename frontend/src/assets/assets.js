@@ -270,7 +270,7 @@ const BookIcon = ()=>(
 */
 
 export const hotels=(hotelRooms)=>{
-;
+
  const updatedRoom=hotelRooms.map((hotel)=>(
             {
                 ...hotel,
@@ -286,6 +286,7 @@ export const hotels=(hotelRooms)=>{
     )
 
     console.log(updatedRoom);
+    localStorage.setItem('hotelData',JSON.stringify(updatedRoom))
     return updatedRoom
     
     
