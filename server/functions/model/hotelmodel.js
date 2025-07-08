@@ -1,4 +1,5 @@
 const {db} =require('../config/firebaseConfig');
+const { booking } = require('../controller/hotelcontroller');
 
 exports.hotelRegister=async(userId,hotel,phone,address,city)=>{
     const hotelRef=db.collection("hotels").doc();
@@ -96,4 +97,64 @@ exports.getHotelRooms=async()=>{
     return [...Hotelresult]
 
 
+}
+
+exports.hotelBooking =async (userId,roomId,hotelId,bookInput)=>{
+
+    const bookref=db.collection("bookings").doc()
+
+    await bookref.set({
+        userId,roomId,hotelId,bookInput
+    });
+    return bookref.id;
+}
+
+exports.getBookings=async(userId)=>{
+    const bookingref=await db.collection("bookings").where('userId',"==",userId).get()
+   let bookings=[];
+   for(const doc of bookingref.docs){
+    const bookingData=doc.data();
+
+    let hotelData=[];
+    if (bookingData.hotelId) {
+        
+        const hotelSnap=await db.collection("hotels").doc(bookingData.hotelId).get();
+        if (hotelSnap.exists) {
+            hotelData={hotelId:hotelSnap.id,...hotelSnap.data()}
+        }
+    }
+
+    let roomData=[];
+    if(bookingData.roomId){
+        const roomSnap=await db.collection('rooms').doc(bookingData.roomId).get();
+
+        if(roomSnap.exists){
+            roomData={roomId:roomSnap.id,...roomSnap.data()};
+        }
+    }
+
+    bookings.push({
+        bookingId:doc.id,
+        ...bookingData,
+        hotel:hotelData,
+        room:roomData
+    })
+
+   }
+
+   return bookings
+    
+}
+
+exports.Payment=async(bookingId)=>{
+    try {
+        
+         const bookingRef=await db.collection('bookings').doc(bookingId);
+         const update=await bookingRef.update({"bookInput.paid":true})
+
+    return { success: true}
+    } catch (error) {
+         return { success: false}
+    }
+   
 }

@@ -1,4 +1,4 @@
-const {hotelRegister,roomRegister,roomDetails,updatRoomDetils,getHotelRooms} =require('../model/hotelmodel.js');
+const {hotelRegister,roomRegister,roomDetails,updatRoomDetils,getHotelRooms,hotelBooking,getBookings,Payment} =require('../model/hotelmodel.js');
 const {userDetails}=require('../model/DetailsModel.js')
 
 
@@ -71,6 +71,36 @@ const hotelRoom=async(req,res)=>{
     }
 }
 
+const booking=async(req,res)=>{
+    const {userId,roomId,hotelId,bookInput}=req.body;
+    try {
+        
+        const result =await hotelBooking(userId,roomId,hotelId,bookInput);
+        res.status(200).json(result)
+    } catch (error) {
+         res.status(500).send({ error: "booking unsucessfull" });
+    
+    }
+}
 
+ const bookingDetails=async(req,res)=>{
+    const {userId}=req.params;
+    try {
+        const result=await getBookings(userId);
+        res.status(200).json(result)
+    } catch (error) {
+        res.status(500).send({ error: "bookings not get" });
+    }
+}
 
-module.exports={hotelRegistration,roomRegistration,getRoomDetails,roomDetailsUpdate,hotelRoom};
+const roomPayment=async(req,res)=>{
+    const {bookingId}=req.params;
+    try {
+        
+        const result=await Payment(bookingId);
+         res.status(200).json(result)
+    } catch (error) {
+         res.status(500).send({ error: "Payment Unsucessfull" });
+    }
+}
+module.exports={hotelRegistration,roomRegistration,getRoomDetails,roomDetailsUpdate,hotelRoom,booking,bookingDetails,roomPayment};

@@ -38,7 +38,7 @@ import uploadArea from "./uploadArea.svg";
 import totalBookingIcon from "./totalBookingIcon.svg";
 import totalRevenueIcon from "./totalRevenueIcon.svg";
 import Gk from './Gk.png'
-import { hotel } from '../common/userDetails'
+
 
 export const assets = {
     logo,
@@ -290,4 +290,15 @@ export const hotels=(hotelRooms)=>{
     return updatedRoom
     
     
+}
+
+export const bookings=(booking)=>{
+    const updatedBooking=booking.map((booking)=>(
+        {
+            ...booking,"images": [roomImg4, roomImg1, roomImg2, roomImg3],
+        }
+    )
+
+    )
+    return updatedBooking
 }

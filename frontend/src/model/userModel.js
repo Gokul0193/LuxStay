@@ -15,3 +15,4 @@ export const googleLogin=async (email)=>{
 export const updateUserReg =async(updateData)=>{
     return await axios.post('http://localhost:5001/staylux-a71c8/us-central1/api/auth/reg-update',updateData)
 }
+

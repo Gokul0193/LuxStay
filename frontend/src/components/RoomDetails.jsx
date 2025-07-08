@@ -2,13 +2,15 @@ import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { assets, facilityIcons, hotels, roomCommonData, roomsDummyData } from '../assets/assets';
 import StarRating from './StarRating';
+import { bookings } from '../controller/hotelController';
+import { userId } from '../common/userDetails';
 
 
 const RoomDetails = () => {
     const {id} =useParams();
     const [room,setRoom]=useState(null);
      const [mainImg,setMainImg]=useState(null);
-
+    const [bookInput,setBookInput]=useState({checkIn:'',checkOut:'',guests:'',paid:false})
      useEffect(()=>{
 
         
@@ -30,6 +32,8 @@ const RoomDetails = () => {
     }
 }
 console.log(foundHotel);
+console.log(userId());
+
  foundHotel && setRoom(foundHotel);
         foundHotel && setMainImg(foundHotel.images[0])
 
@@ -39,6 +43,24 @@ console.log(foundHotel);
        
         
      },[])
+
+    
+     const handleSubmit= async(e)=>{
+       e.preventDefault()
+
+        try {
+             const uid=userId()
+            const booking =await bookings(uid,room.roomId,room.hotel.hotelId,bookInput);
+            setBookInput({checkIn:'',checkOut:'',guests:'',paid:false})
+            
+            alert("Room Booked Sucessfully")
+
+            
+        } catch (error) {
+            console.log("somethin wrong");
+            
+        }
+     }
 
   return room && (
     <div className='py-28 md:py-35 px-4 md:px-16 lg:px-24 xl:px-32'>
@@ -84,7 +106,7 @@ console.log(foundHotel);
                     {
                         Object.entries( room.amenities).map(([key,value],index)=>{
                             return value && <div key={index} className='flex items-center gap-2 px-3 py-2 rounded-lg bg-gray-100'>
-                                <img    src={facilityIcons[key]} alt={value} className='w-5 h-5' />
+                                <img    src={facilityIcons[key]} alt={key} className='w-5 h-5' />
                                 <p className='text-xs'>{key}</p>
                             </div>
                         })
@@ -100,22 +122,22 @@ console.log(foundHotel);
         </div>
 
         {/* Check In Form */}
-        <form className='flex flex-col md:flex-row items-start md:items-center justify-between bg-white shadow-[0px_0px_20px_rgba(0,0,0,0.15)] p-6 rounded-xl mx-auto mt-16
+        <form onSubmit={handleSubmit} className='flex flex-col md:flex-row items-start md:items-center justify-between bg-white shadow-[0px_0px_20px_rgba(0,0,0,0.15)] p-6 rounded-xl mx-auto mt-16
         max-w-6xl'>
             <div className='flex flex-col flex-wrap md:flex-row items-start md:items-center gap-4 md:gap-10 text-gray-500'>
                     <div className='flex flex-col'>
                         <label htmlFor="checkInDate" className='font-medium'>Check-In </label>
-                        <input type="date" id='checkInDate' placeholder='Check-In' className='w-full rounded border border-gray-300 px-3 py-2 mt-1.5 outline-none' required />
+                        <input type="date" id='checkInDate' placeholder='Check-In' className='w-full rounded border border-gray-300 px-3 py-2 mt-1.5 outline-none' required  value={bookInput.checkIn} onChange={(e)=>setBookInput(prev=>({...prev,checkIn:e.target.value,}))} />
                     </div>
                     <div className='w-px h-15 bg-gray-300/70 max-md:hidden'></div>
                     <div className='flex flex-col'>
                         <label htmlFor="checkOutDate" className='font-medium'>Check-Out</label>
-                        <input type="date" id='checkOutDate' placeholder='Check-Out' className='w-full rounded border border-gray-300 px-3 py-2 mt-1.5 outline-none' required />
+                        <input type="date" id='checkOutDate' placeholder='Check-Out' className='w-full rounded border border-gray-300 px-3 py-2 mt-1.5 outline-none' required value={bookInput.checkOut} onChange={(e)=>setBookInput(prev=>({...prev,checkOut:e.target.value}))} />
                     </div>
                         <div className='w-px h-15 bg-gray-300/70 max-md:hidden'></div>
                     <div className='flex flex-col'>
                         <label htmlFor="guests" className='font-medium'>Guests</label>
-                        <input type="number" id='guests' placeholder='0' className='max-w-20 rounded border border-gray-300 px-3 py-2 mt-1.5 outline-none ' required />
+                        <input type="number" id='guests' placeholder='0' className='max-w-20 rounded border border-gray-300 px-3 py-2 mt-1.5 outline-none ' required value={bookInput.guests} onChange={(e)=>setBookInput(prev=>({...prev,guests:e.target.value,}))} />
                     </div>
                 
             </div>
