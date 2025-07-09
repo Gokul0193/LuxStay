@@ -10,7 +10,7 @@ LuxStay is a **hotel booking web application** that allows users to:
 
 * Explore hotels
 * View available rooms
-* Make bookings
+* Make bookings 
 * Manage their bookings
 
 The project is built with:
