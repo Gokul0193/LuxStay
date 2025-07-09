@@ -14,4 +14,5 @@ router.get('/hotel-room',hotelController.hotelRoom)
 router.post('/room-booking',hotelController.booking)
 router.get('/bookings/:userId',hotelController.bookingDetails)
 router.put('/bookings/:bookingId',hotelController.roomPayment)
+router.get('/recent-bookings/:hotelId',hotelController.recentBookings)
 module.exports = router;

@@ -67,7 +67,7 @@ const MyBookings = () => {
                             <img src={assets.guestsIcon} alt="guest-icon" />
                             <span className='space-x-1'>Guests {booking.bookInput.guests} </span>
                         </div>
-                        <p className='text-sm'>Total : $ ${booking.room.price}</p>
+                        <p className='text-sm'>Total : ${booking.room.price}</p>
                     </div>
 
                     {/* Date and time */}

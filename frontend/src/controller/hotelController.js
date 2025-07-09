@@ -1,4 +1,4 @@
-import { hotelReg,roomReg,roomDetails,roomDetailsUpdate,hotelRooms,hotelBookings,bookingDetails,roomPayment} from "../model/hotelModel.js"
+import { hotelReg,roomReg,roomDetails,roomDetailsUpdate,hotelRooms,hotelBookings,bookingDetails,roomPayment,recentBookingDetails} from "../model/hotelModel.js"
 
 export const hotelRegistration = async (userId, hotel, phone, address, city) => {
     return await hotelReg({ userId, hotel, phone, address, city });
@@ -33,4 +33,8 @@ export const getBookings=async(userId)=>{
 export const Payment=async(bookingId)=>{
 
     return await roomPayment(bookingId);
+}
+export const recentBookings=async(hotelId)=>{
+
+    return await recentBookingDetails(hotelId)
 }

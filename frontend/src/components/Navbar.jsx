@@ -64,6 +64,9 @@ const Navbar = () => {
      
     alert(`${user.name} is Logout Sucessfully`)
     localStorage.removeItem('user');
+    localStorage.removeItem('userId');
+    
+
     setUser(null)
    };
     

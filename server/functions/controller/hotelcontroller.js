@@ -1,4 +1,4 @@
-const {hotelRegister,roomRegister,roomDetails,updatRoomDetils,getHotelRooms,hotelBooking,getBookings,Payment} =require('../model/hotelmodel.js');
+const {hotelRegister,roomRegister,roomDetails,updatRoomDetils,getHotelRooms,hotelBooking,getBookings,Payment,recentBookingDetails} =require('../model/hotelmodel.js');
 const {userDetails}=require('../model/DetailsModel.js')
 
 
@@ -103,4 +103,14 @@ const roomPayment=async(req,res)=>{
          res.status(500).send({ error: "Payment Unsucessfull" });
     }
 }
-module.exports={hotelRegistration,roomRegistration,getRoomDetails,roomDetailsUpdate,hotelRoom,booking,bookingDetails,roomPayment};
+
+const recentBookings=async(req,res)=>{
+    const {hotelId}=req.params;
+    try {
+        const result =await recentBookingDetails(hotelId);
+          res.status(200).json(result)
+    } catch (error) {
+         res.status(500).send({ error: "not get dat" });
+    }
+}
+module.exports={hotelRegistration,roomRegistration,getRoomDetails,roomDetailsUpdate,hotelRoom,booking,bookingDetails,roomPayment,recentBookings};

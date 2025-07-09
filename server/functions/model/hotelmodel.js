@@ -158,3 +158,49 @@ exports.Payment=async(bookingId)=>{
     }
    
 }
+exports.recentBookingDetails = async (hotelId) => {
+    try {
+        console.log("🚀 Finding bookings for hotelId:", hotelId);
+        const bookingref = await db.collection("bookings").where("hotelId", "==", hotelId).get();
+
+        let bookings=[];
+        for(const doc of bookingref.docs){
+            const booking=doc.data();
+
+            let room={};
+            let user={};
+            if (booking.roomId) {
+                const roomRef=await db.collection('rooms').doc(booking.roomId).get()
+                if (roomRef.exists) {
+                    room={
+                        ...roomRef.data()
+                    }
+                }
+            }
+
+              if (booking.userId) {
+                const userRef=await db.collection('users').doc(booking.userId).get()
+                if (userRef.exists) {
+                    user={
+                        ...userRef.data()
+                    }
+                }
+            }
+
+            bookings.push({
+                bookingId:doc.id,
+                booking:doc.data(),
+                room,
+                user
+            })
+        }
+
+        return bookings
+
+        
+
+    } catch (error) {
+        console.error("🔥 ERROR recentBookingDetails:", error);
+        throw error;
+    }
+}

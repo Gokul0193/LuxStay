@@ -15,7 +15,7 @@ const sidebar = () => {
             icon:assets.addIcon
         },
          {
-            name:"List Roo,",
+            name:"List Room",
             path:'/owner/list-room',
             icon:assets.listIcon
         },
